@@ -1,0 +1,135 @@
+{
+  "name": "zevic",
+  "displayName": "Zevic",
+  "description": "Language support for Zevic: syntax highlighting, snippets, formatting with zevfmt and zevpm tasks.",
+  "version": "0.1.0",
+  "publisher": "zevic-lang",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zevic-lang/vscode-zevic"
+  },
+  "homepage": "https://github.com/zevic-lang/zevic",
+  "bugs": {
+    "url": "https://github.com/zevic-lang/vscode-zevic/issues"
+  },
+  "keywords": ["zevic", "zev", "llvm", "language"],
+  "categories": ["Programming Languages", "Snippets", "Formatters"],
+  "engines": {
+    "vscode": "^1.75.0"
+  },
+  "main": "./src/extension.js",
+  "activationEvents": [
+    "onLanguage:zevic",
+    "workspaceContains:zevic.toml"
+  ],
+  "contributes": {
+    "languages": [
+      {
+        "id": "zevic",
+        "aliases": ["Zevic", "zevic"],
+        "extensions": [".zev"],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "zevic",
+        "scopeName": "source.zevic",
+        "path": "./syntaxes/zevic.tmLanguage.json"
+      }
+    ],
+    "snippets": [
+      {
+        "language": "zevic",
+        "path": "./snippets/zevic.code-snippets"
+      }
+    ],
+    "configurationDefaults": {
+      "[zevic]": {
+        "editor.tabSize": 4,
+        "editor.insertSpaces": true,
+        "editor.detectIndentation": false,
+        "editor.defaultFormatter": "zevic-lang.zevic"
+      }
+    },
+    "commands": [
+      { "command": "zevic.build", "title": "Zevic: Build the package" },
+      { "command": "zevic.run", "title": "Zevic: Run the package" },
+      { "command": "zevic.test", "title": "Zevic: Run the tests" },
+      { "command": "zevic.formatPackage", "title": "Zevic: Format all files in the package" }
+    ],
+    "configuration": {
+      "title": "Zevic",
+      "properties": {
+        "zevic.zevpmPath": {
+          "type": "string",
+          "default": "zevpm",
+          "description": "The zevpm executable (the name on PATH, or a full path)."
+        },
+        "zevic.zevfmtPath": {
+          "type": "string",
+          "default": "zevfmt",
+          "description": "The zevfmt executable (the name on PATH, or a full path)."
+        },
+        "zevic.zevicPath": {
+          "type": "string",
+          "default": "zevic",
+          "description": "The zevic compiler executable. It is passed to zevpm through the ZEVIC environment variable."
+        },
+        "zevic.home": {
+          "type": "string",
+          "default": "",
+          "description": "The value of ZEVIC_HOME (where packages/Zevic and runtime/ are). Leave empty to use the environment."
+        },
+        "zevic.checkOnSave": {
+          "type": "boolean",
+          "default": true,
+          "description": "Compile the package when a .zev file is saved and show the errors in the Problems panel."
+        }
+      }
+    },
+    "taskDefinitions": [
+      {
+        "type": "zevpm",
+        "required": ["command"],
+        "properties": {
+          "command": {
+            "type": "string",
+            "enum": ["build", "run", "test", "clean", "fmt"],
+            "description": "The zevpm command."
+          },
+          "args": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "Extra arguments for the command."
+          }
+        }
+      }
+    ],
+    "problemMatchers": [
+      {
+        "name": "zevic",
+        "owner": "zevic",
+        "fileLocation": ["relative", "${workspaceFolder}"],
+        "pattern": {
+          "regexp": "^(.+?):(\\d+):(\\d+): (error|warning): (.*)$",
+          "file": 1,
+          "line": 2,
+          "column": 3,
+          "severity": 4,
+          "message": 5
+        }
+      }
+    ]
+  },
+  "scripts": {
+    "test": "node test/run.js",
+    "package": "vsce package"
+  },
+  "devDependencies": {
+    "@vscode/vsce": "^3.0.0",
+    "vscode-oniguruma": "^2.0.1",
+    "vscode-textmate": "^9.0.0"
+  }
+}

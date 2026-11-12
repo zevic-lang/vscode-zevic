@@ -1,0 +1,310 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "Zevic",
+  "scopeName": "source.zevic",
+  "patterns": [
+    { "include": "#comments" },
+    { "include": "#strings" },
+    { "include": "#chars" },
+    { "include": "#numbers" },
+    { "include": "#declarations" },
+    { "include": "#labels" },
+    { "include": "#keywords" },
+    { "include": "#types" },
+    { "include": "#calls" },
+    { "include": "#operators" }
+  ],
+  "repository": {
+    "comments": {
+      "patterns": [
+        {
+          "name": "comment.block.documentation.zevic",
+          "begin": "///",
+          "end": "$",
+          "beginCaptures": { "0": { "name": "punctuation.definition.comment.zevic" } }
+        },
+        {
+          "name": "comment.line.double-slash.zevic",
+          "begin": "//",
+          "end": "$",
+          "beginCaptures": { "0": { "name": "punctuation.definition.comment.zevic" } }
+        },
+        { "include": "#block-comment" }
+      ]
+    },
+    "block-comment": {
+      "name": "comment.block.zevic",
+      "begin": "/\\*",
+      "end": "\\*/",
+      "beginCaptures": { "0": { "name": "punctuation.definition.comment.begin.zevic" } },
+      "endCaptures": { "0": { "name": "punctuation.definition.comment.end.zevic" } },
+      "patterns": [{ "include": "#block-comment" }]
+    },
+    "string-escapes": {
+      "patterns": [
+        {
+          "name": "constant.character.escape.zevic",
+          "match": "\\\\(?:[nrt\\\\\"'0$]|x[0-7][0-9A-Fa-f]|u\\{[0-9A-Fa-f]{1,6}\\})"
+        },
+        {
+          "name": "invalid.illegal.escape.zevic",
+          "match": "\\\\."
+        }
+      ]
+    },
+    "interpolation": {
+      "name": "meta.interpolation.zevic",
+      "begin": "\\$\\{",
+      "end": "\\}",
+      "beginCaptures": { "0": { "name": "punctuation.section.interpolation.begin.zevic" } },
+      "endCaptures": { "0": { "name": "punctuation.section.interpolation.end.zevic" } },
+      "patterns": [
+        { "include": "#braces-in-interpolation" },
+        { "include": "$self" }
+      ]
+    },
+    "braces-in-interpolation": {
+      "begin": "\\{",
+      "end": "\\}",
+      "patterns": [
+        { "include": "#braces-in-interpolation" },
+        { "include": "$self" }
+      ]
+    },
+    "strings": {
+      "patterns": [
+        {
+          "name": "string.quoted.other.raw.multiline.zevic",
+          "begin": "\\br\"\"\"",
+          "end": "\"\"\"",
+          "beginCaptures": { "0": { "name": "punctuation.definition.string.begin.zevic" } },
+          "endCaptures": { "0": { "name": "punctuation.definition.string.end.zevic" } }
+        },
+        {
+          "name": "string.quoted.other.raw.zevic",
+          "begin": "\\br\"",
+          "end": "\"",
+          "beginCaptures": { "0": { "name": "punctuation.definition.string.begin.zevic" } },
+          "endCaptures": { "0": { "name": "punctuation.definition.string.end.zevic" } }
+        },
+        {
+          "name": "string.quoted.triple.zevic",
+          "begin": "\"\"\"",
+          "end": "\"\"\"",
+          "beginCaptures": { "0": { "name": "punctuation.definition.string.begin.zevic" } },
+          "endCaptures": { "0": { "name": "punctuation.definition.string.end.zevic" } },
+          "patterns": [
+            { "include": "#string-escapes" },
+            { "include": "#interpolation" }
+          ]
+        },
+        {
+          "name": "string.quoted.double.zevic",
+          "begin": "\"",
+          "end": "\"|$",
+          "beginCaptures": { "0": { "name": "punctuation.definition.string.begin.zevic" } },
+          "endCaptures": { "0": { "name": "punctuation.definition.string.end.zevic" } },
+          "patterns": [
+            { "include": "#string-escapes" },
+            { "include": "#interpolation" }
+          ]
+        }
+      ]
+    },
+    "chars": {
+      "patterns": [
+        {
+          "name": "string.quoted.single.byte.zevic",
+          "match": "\\bb'(?:[^'\\\\\\n]|\\\\(?:[nrt\\\\\"'0$]|x[0-9A-Fa-f]{2}))'"
+        },
+        {
+          "name": "string.quoted.single.zevic",
+          "match": "'(?:[^'\\\\\\n]|\\\\(?:[nrt\\\\\"'0$]|x[0-7][0-9A-Fa-f]|u\\{[0-9A-Fa-f]{1,6}\\}))'"
+        }
+      ]
+    },
+    "numbers": {
+      "patterns": [
+        {
+          "name": "constant.numeric.hex.zevic",
+          "match": "\\b0x[0-9A-Fa-f](?:_?[0-9A-Fa-f])*(?:_(?:[IU](?:8|16|32|64)))?\\b"
+        },
+        {
+          "name": "constant.numeric.binary.zevic",
+          "match": "\\b0b[01](?:_?[01])*(?:_(?:[IU](?:8|16|32|64)))?\\b"
+        },
+        {
+          "name": "constant.numeric.octal.zevic",
+          "match": "\\b0o[0-7](?:_?[0-7])*(?:_(?:[IU](?:8|16|32|64)))?\\b"
+        },
+        {
+          "name": "constant.numeric.float.zevic",
+          "match": "\\b[0-9](?:_?[0-9])*(?:\\.[0-9](?:_?[0-9])*(?:[eE][+-]?[0-9]+)?|[eE][+-]?[0-9]+)(?:_F(?:32|64))?\\b"
+        },
+        {
+          "name": "constant.numeric.integer.zevic",
+          "match": "\\b[0-9](?:_?[0-9])*(?:_(?:[IU](?:8|16|32|64)|F(?:32|64)))?\\b"
+        }
+      ]
+    },
+    "declarations": {
+      "patterns": [
+        {
+          "match": "\\b(module)\\s+([A-Za-z_][A-Za-z0-9_]*(?:\\.[A-Za-z_][A-Za-z0-9_]*)*)",
+          "captures": {
+            "1": { "name": "keyword.other.module.zevic" },
+            "2": { "name": "entity.name.namespace.zevic" }
+          }
+        },
+        {
+          "match": "\\b(import)\\s+([A-Za-z_][A-Za-z0-9_]*(?:\\.[A-Za-z_][A-Za-z0-9_]*)*)(?:\\s+(as)\\s+([A-Za-z_][A-Za-z0-9_]*))?",
+          "captures": {
+            "1": { "name": "keyword.control.import.zevic" },
+            "2": { "name": "entity.name.namespace.zevic" },
+            "3": { "name": "keyword.control.import.zevic" },
+            "4": { "name": "entity.name.namespace.zevic" }
+          }
+        },
+        {
+          "match": "\\b(fn)\\s+(`?[A-Za-z_][A-Za-z0-9_]*`?)",
+          "captures": {
+            "1": { "name": "storage.type.function.zevic" },
+            "2": { "name": "entity.name.function.zevic" }
+          }
+        },
+        {
+          "match": "\\b(class|struct|enum|interface)\\s+([A-Za-z_][A-Za-z0-9_]*)",
+          "captures": {
+            "1": { "name": "storage.type.$1.zevic" },
+            "2": { "name": "entity.name.type.$1.zevic" }
+          }
+        },
+        {
+          "match": "\\b(test)\\s+(?=\")",
+          "captures": { "1": { "name": "keyword.other.test.zevic" } }
+        },
+        {
+          "match": "\\b(params)\\s+(?=[A-Za-z_][A-Za-z0-9_]*\\s*:)",
+          "captures": { "1": { "name": "storage.modifier.params.zevic" } }
+        }
+      ]
+    },
+    "labels": {
+      "patterns": [
+        {
+          "match": "\\b(break|continue)(@)([A-Za-z_][A-Za-z0-9_]*)",
+          "captures": {
+            "1": { "name": "keyword.control.loop.zevic" },
+            "2": { "name": "punctuation.separator.label.zevic" },
+            "3": { "name": "entity.name.label.zevic" }
+          }
+        },
+        {
+          "match": "\\b([A-Za-z_][A-Za-z0-9_]*)(@)(?=\\s*(?:while|loop|for)\\b)",
+          "captures": {
+            "1": { "name": "entity.name.label.zevic" },
+            "2": { "name": "punctuation.separator.label.zevic" }
+          }
+        }
+      ]
+    },
+    "keywords": {
+      "patterns": [
+        {
+          "name": "keyword.control.zevic",
+          "match": "\\b(if|else|while|loop|for|in|match|return|break|continue|defer)\\b"
+        },
+        {
+          "name": "keyword.control.async.zevic",
+          "match": "\\b(async|await)\\b"
+        },
+        {
+          "name": "keyword.operator.type-test.zevic",
+          "match": "\\b(is)\\b"
+        },
+        {
+          "name": "storage.type.zevic",
+          "match": "\\b(let|mut)\\b"
+        },
+        {
+          "name": "storage.modifier.zevic",
+          "match": "\\b(static|extern|export)\\b"
+        },
+        {
+          "name": "constant.language.boolean.zevic",
+          "match": "\\b(true|false)\\b"
+        },
+        {
+          "name": "variable.language.this.zevic",
+          "match": "\\b(this)\\b"
+        },
+        {
+          "name": "constant.language.null.zevic",
+          "match": "\\b(Null|None)\\b"
+        },
+        {
+          "name": "support.function.builtin.zevic",
+          "match": "\\b(Some|Ok|Err|Panic|Assert|Same|NewString|Free)\\b(?=\\s*\\()"
+        },
+        {
+          "name": "invalid.illegal.reserved.zevic",
+          "match": "\\b(macro|unsafe|type|where|const|yield|impl|null)\\b"
+        }
+      ]
+    },
+    "types": {
+      "patterns": [
+        {
+          "name": "support.type.primitive.zevic",
+          "match": "\\b(I8|I16|I32|I64|U8|U16|U32|U64|F32|F64|Bool|Char|String|Unit|Never|Self)\\b"
+        },
+        {
+          "name": "support.type.c.zevic",
+          "match": "\\b(CChar|CSChar|CUChar|CShort|CUShort|CInt|CUInt|CLong|CULong|CLongLong|CULongLong|CSizeT|CSSizeT|CPtrDiff|CIntPtr|CUIntPtr|CFloat|CDouble|CBool|CString|CVoid)\\b"
+        },
+        {
+          "name": "support.type.builtin.zevic",
+          "match": "\\b(Array|Map|Set|Option|Result|Error|ErrorKind|StringBuilder|Handle|Iterable|Iterator|Equatable|Hashable|Comparable)\\b"
+        },
+        {
+          "name": "entity.name.type.zevic",
+          "match": "\\b[A-Z][A-Za-z0-9]*\\b(?!\\s*\\()"
+        }
+      ]
+    },
+    "calls": {
+      "patterns": [
+        {
+          "name": "entity.name.function.call.zevic",
+          "match": "\\b[A-Za-z_][A-Za-z0-9_]*(?=\\s*(?:<[^<>()]*>)?\\s*\\()"
+        }
+      ]
+    },
+    "operators": {
+      "patterns": [
+        { "name": "keyword.operator.arrow.zevic", "match": "=>|->" },
+        { "name": "keyword.operator.range.zevic", "match": "\\.\\.=?" },
+        { "name": "keyword.operator.try.zevic", "match": "\\?" },
+        {
+          "name": "keyword.operator.assignment.zevic",
+          "match": "<<=|>>=|\\+=|-=|\\*=|/=|%=|&=|\\|=|\\^=|(?<![=!<>])=(?![=>])"
+        },
+        {
+          "name": "keyword.operator.comparison.zevic",
+          "match": "==|!=|<=|>=|<|>"
+        },
+        {
+          "name": "keyword.operator.logical.zevic",
+          "match": "&&|\\|\\||!"
+        },
+        {
+          "name": "keyword.operator.arithmetic.zevic",
+          "match": "<<|>>|\\+|-|\\*|/|%|&|\\||\\^|~"
+        },
+        { "name": "punctuation.accessor.zevic", "match": "\\." },
+        { "name": "punctuation.separator.comma.zevic", "match": "," },
+        { "name": "punctuation.separator.colon.zevic", "match": ":" }
+      ]
+    }
+  }
+}

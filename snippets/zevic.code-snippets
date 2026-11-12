@@ -1,0 +1,166 @@
+{
+  "Main program": {
+    "prefix": "main",
+    "body": [
+      "module Main",
+      "",
+      "import Zevic.Console",
+      "",
+      "fn Main() {",
+      "    ${0:Console.Println(\"Hello, World!\")}",
+      "}"
+    ],
+    "description": "A program with a Main function"
+  },
+  "Function": {
+    "prefix": "fn",
+    "body": ["fn ${1:Name}(${2}) -> ${3:Unit} {", "    $0", "}"],
+    "description": "A function"
+  },
+  "Method (mut fn)": {
+    "prefix": "mutfn",
+    "body": ["mut fn ${1:Name}(${2}) {", "    $0", "}"],
+    "description": "A method that may change this"
+  },
+  "Class": {
+    "prefix": "class",
+    "body": [
+      "class ${1:Name} {",
+      "    ${2:field}: ${3:I32}",
+      "",
+      "    fn Init(${4}) {",
+      "        $0",
+      "    }",
+      "}"
+    ],
+    "description": "A class with an Init"
+  },
+  "Struct": {
+    "prefix": "struct",
+    "body": [
+      "struct ${1:Name} {",
+      "    ${2:X}: ${3:I32}",
+      "",
+      "    fn Init(${4:x}: ${3}) {",
+      "        this.${2} = ${4}",
+      "    }",
+      "}"
+    ],
+    "description": "A struct with an Init"
+  },
+  "Enum": {
+    "prefix": "enum",
+    "body": ["enum ${1:Name} {", "    ${2:First}(${3:I64}),", "    ${4:Empty},", "}"],
+    "description": "An enum"
+  },
+  "Interface": {
+    "prefix": "interface",
+    "body": ["interface ${1:Name} {", "    fn ${2:Method}() -> ${3:Unit}", "}"],
+    "description": "An interface"
+  },
+  "if": {
+    "prefix": "if",
+    "body": ["if (${1:cond}) {", "    $0", "}"],
+    "description": "if"
+  },
+  "if else": {
+    "prefix": "ife",
+    "body": ["if (${1:cond}) {", "    $2", "} else {", "    $0", "}"],
+    "description": "if / else"
+  },
+  "while": {
+    "prefix": "while",
+    "body": ["while (${1:cond}) {", "    $0", "}"],
+    "description": "while loop"
+  },
+  "loop": {
+    "prefix": "loop",
+    "body": ["loop {", "    $0", "}"],
+    "description": "infinite loop"
+  },
+  "for range": {
+    "prefix": "forr",
+    "body": ["for (${1:i} in ${2:0}..${3:n}) {", "    $0", "}"],
+    "description": "for over a range"
+  },
+  "for in": {
+    "prefix": "for",
+    "body": ["for (${1:x} in ${2:items}) {", "    $0", "}"],
+    "description": "for over a collection"
+  },
+  "for index": {
+    "prefix": "fori",
+    "body": ["for (${1:i}, ${2:x} in ${3:items}) {", "    $0", "}"],
+    "description": "for with the index"
+  },
+  "Labeled loop": {
+    "prefix": "label",
+    "body": ["${1:outer}@ for (${2:x} in ${3:items}) {", "    $0", "}"],
+    "description": "A labeled loop (use break@label / continue@label)"
+  },
+  "match": {
+    "prefix": "match",
+    "body": ["match (${1:value}) {", "    ${2:pattern} => ${3:result},", "    _ => ${0:other},", "}"],
+    "description": "match expression"
+  },
+  "match Option": {
+    "prefix": "matchopt",
+    "body": ["match (${1:value}) {", "    Some(${2:x}) => ${3:x},", "    None => ${0:default},", "}"],
+    "description": "match on an Option"
+  },
+  "match Result": {
+    "prefix": "matchres",
+    "body": ["match (${1:value}) {", "    Ok(${2:x}) => ${3:x},", "    Err(${4:e}) => ${0:handle},", "}"],
+    "description": "match on a Result"
+  },
+  "let": {
+    "prefix": "let",
+    "body": "let ${1:name}: ${2:I32} = ${0:value}",
+    "description": "An immutable variable"
+  },
+  "mut": {
+    "prefix": "mut",
+    "body": "mut ${1:name}: ${2:I32} = ${0:value}",
+    "description": "A mutable variable"
+  },
+  "defer": {
+    "prefix": "defer",
+    "body": "defer ${0:f.Close()}",
+    "description": "Run at the end of the block"
+  },
+  "async": {
+    "prefix": "async",
+    "body": "let ${1:task}: Async.Task<${2:I64}> = async { ${0:work()} }",
+    "description": "Start a task"
+  },
+  "Test": {
+    "prefix": "test",
+    "body": ["test \"${1:name}\" {", "    Test.Equal(${2:actual}, ${3:expected})", "}"],
+    "description": "A test block"
+  },
+  "extern C": {
+    "prefix": "externc",
+    "body": ["extern \"C\" {", "    fn ${1:name}(${2}) -> ${3:CInt}", "}"],
+    "description": "Declare C functions"
+  },
+  "export C": {
+    "prefix": "exportc",
+    "body": ["export \"C\" fn ${1:Name}(${2}) -> ${3:CInt} {", "    $0", "}"],
+    "description": "A function callable from C"
+  },
+  "Import": {
+    "prefix": "import",
+    "body": "import Zevic.${1:Console}",
+    "description": "Import a standard library module"
+  },
+  "Println": {
+    "prefix": "pl",
+    "body": "Console.Println(\"${1}\")",
+    "description": "Console.Println"
+  },
+  "Printf": {
+    "prefix": "pf",
+    "body": "Console.Printf(\"${1:%d}\\n\", ${2})",
+    "description": "Console.Printf"
+  }
+}
