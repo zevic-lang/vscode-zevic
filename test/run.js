@@ -53,6 +53,11 @@ const cases = [
   ['let ok = true && !false', [['true', 'constant.language.boolean'], ['&&', 'keyword.operator.logical'], ['!', 'keyword.operator.logical'], ['false', 'constant.language.boolean']]],
   ['this.name = name', [['this', 'variable.language.this']]],
   ['let u: type = 1', [['type', 'invalid.illegal.reserved']]],
+  ['let union = 1', [['union', 'invalid.illegal.reserved']]],
+  ['fn pub() {}', [['pub', 'invalid.illegal.reserved']]],
+  ['unsafe {', [['unsafe', 'storage.modifier']]],
+  ['unsafe fn Read(p: *I32) -> I32 {', [['unsafe', 'storage.modifier'], ['fn', 'storage.type.function'], ['Read', 'entity.name.function']]],
+  ['    mut count: I64 = 0', [['mut', 'storage.type'], ['I64', 'support.type.primitive']]],
   ['return Err(Error.New(ErrorKind.Invalid, "x"))', [['return', 'keyword.control'], ['Err', 'support.function.builtin'], ['Error', 'support.type.builtin'], ['ErrorKind', 'support.type.builtin']]],
 ];
 
