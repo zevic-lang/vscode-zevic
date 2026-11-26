@@ -228,7 +228,7 @@
         },
         {
           "name": "storage.modifier.zevic",
-          "match": "\\b(static|extern|export)\\b"
+          "match": "\\b(static|extern|export|unsafe)\\b"
         },
         {
           "name": "constant.language.boolean.zevic",
@@ -248,7 +248,7 @@
         },
         {
           "name": "invalid.illegal.reserved.zevic",
-          "match": "\\b(macro|unsafe|type|where|const|yield|impl|null)\\b"
+          "match": "\\b(macro|type|where|const|yield|impl|union|volatile|pub|try|null)\\b"
         }
       ]
     },
