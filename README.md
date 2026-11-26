@@ -45,7 +45,7 @@ Run "Tasks: Run Task" and pick `zevpm: build`, or bind the commands to keys. To 
 npm install
 npm test            # checks the grammar
 npx vsce package    # makes zevic-<version>.vsix
-code --install-extension zevic-0.1.0.vsix
+code --install-extension zevic-0.2.0.vsix
 ```
 
 ## Not included yet

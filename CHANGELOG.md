@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.2.0
+
+For Zevic 0.5.0.
+
+- `unsafe` is a keyword now (it was marked as reserved): blocks `unsafe { }` and `unsafe fn`.
+- `union`, `volatile`, `pub` and `try` are marked as reserved words, like `macro`, `type`, `where`, `const`, `yield` and `impl`.
+- The snippets `class` and `struct` write their fields with `mut` and `let`; new snippets `unsafe` and `unsafefn`.
+
 ## 0.1.0
 
 First release.

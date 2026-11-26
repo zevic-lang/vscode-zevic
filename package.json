@@ -2,7 +2,7 @@
   "name": "zevic",
   "displayName": "Zevic",
   "description": "Language support for Zevic: syntax highlighting, snippets, formatting with zevfmt and zevpm tasks.",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "publisher": "zevic-lang",
   "license": "Apache-2.0",
   "repository": {
