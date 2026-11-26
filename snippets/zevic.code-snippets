@@ -26,7 +26,7 @@
     "prefix": "class",
     "body": [
       "class ${1:Name} {",
-      "    ${2:field}: ${3:I32}",
+      "    mut ${2:field}: ${3:I32}",
       "",
       "    fn Init(${4}) {",
       "        $0",
@@ -39,7 +39,7 @@
     "prefix": "struct",
     "body": [
       "struct ${1:Name} {",
-      "    ${2:X}: ${3:I32}",
+      "    let ${2:X}: ${3:I32}",
       "",
       "    fn Init(${4:x}: ${3}) {",
       "        this.${2} = ${4}",
@@ -112,6 +112,16 @@
     "prefix": "matchres",
     "body": ["match (${1:value}) {", "    Ok(${2:x}) => ${3:x},", "    Err(${4:e}) => ${0:handle},", "}"],
     "description": "match on a Result"
+  },
+  "Unsafe block": {
+    "prefix": "unsafe",
+    "body": ["unsafe {", "    $0", "}"],
+    "description": "A block where raw pointers may be used (Zevic.Unsafe)"
+  },
+  "Unsafe function": {
+    "prefix": "unsafefn",
+    "body": ["unsafe fn ${1:Name}(${2}) {", "    $0", "}"],
+    "description": "A function that only unsafe code may call"
   },
   "let": {
     "prefix": "let",
